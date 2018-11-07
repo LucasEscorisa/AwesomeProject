@@ -8,9 +8,10 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
-import ListItem from './src/components/ListItem/ListItem';
+
 import PlaceInput from './src/components/PlaceInput/PlaceInput';
 import PlaceList from './src/components/PlaceList/PlaceList';
+import placeImage from './src/assets/beautiful-place.jpg';
 
 
 const instructions = Platform.select({
@@ -20,30 +21,45 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component{
 
   state = {
-    placeName: '',
     places: []
   };
 
   placeAddedHandler = placeName =>{
     this.setState(prevState => {
       return{
-        places: prevState.places.concat(placeName)
+        places: prevState.places.concat({
+          key: Math.random().toString(), 
+          name: placeName,
+          image: {
+            uri: "https://www.avianca.com/content/dam/avianca/imagenes-contenido/PT/Imagenescontenidos/avianca-tours-y-walt-disney-world-resort/1img-planes.jpg"
+          }
+        })
       };
     })
   };
 
+  placeDeletedHandler = key => {
+    this.setState(prevState => {
+      return{
+        places: prevState.places.filter(place => {
+          return place.key !== key;
+        })
+      };
+    });
+  }
+
+
+
   render() {
 
-    
 
     return (
       <View style={styles.container}>
         <PlaceInput onPlaceAdded={this.placeAddedHandler} />
-        <PlaceList places = {this.state.places}/>
+        <PlaceList places={this.state.places} onItemDeleted={this.placeDeletedHandler}/>
       </View>
     );
   }

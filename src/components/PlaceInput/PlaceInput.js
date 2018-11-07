@@ -34,7 +34,7 @@ class placeInput extends Component {
           <TextInput
             style={styles.placeInput}
             style={{width: 300}}
-            placeholder="An Awesome Placeeee"
+            placeholder="An Awesome Place"
             value = {this.state.placeName}
             onChangeText = {this.placeNameChangedHandler} />
 
