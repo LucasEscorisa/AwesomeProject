@@ -1,87 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react';
+import {createStackNavigator} from 'react-navigation';
+import AuthScreen from './src/screens/Auth/Auth'
+import HomeScreen from './src/screens/Auth/HomeScreen'
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
-import {connect} from 'react-redux';
-
-import PlaceInput from './src/components/PlaceInput/PlaceInput';
-import PlaceList from './src/components/PlaceList/PlaceList';
-import placeImage from './src/assets/beautiful-place.jpg';
-import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
-import {addPlace, deletePlace, selectPlace, deselectPlace} from './src/store/actions/index'
-
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-class App extends Component{
-
-  placeAddedHandler = placeName => {
-    this.props.onAddPlace(placeName);
-  };
-
-  placeSelectedHandler = key => {
-    this.props.onSelectPlace(key);
-  }
-
-  placeDeletedHandler = () => {
-    this.props.onDeletePlace();
-  }
-
-  modalClosedHandler = () => {
-    this.props.onDeselectPlace();
-  }
-
-  render() {
-
-
-    return (
-      <View style={styles.container}>
-        <PlaceDetail 
-        selectedPlace={this.props.selectedPlace} 
-        onItemDeleted={this.placeDeletedHandler} 
-        onModalClosed={this.modalClosedHandler} />
-        <PlaceInput onPlaceAdded={this.placeAddedHandler} />
-        <PlaceList places={this.props.places} onItemSelected={this.placeSelectedHandler}/>
-      </View>
-    );
+export default class App extends React.Component{
+  render(){
+    return(
+      <AppStackNavigator />
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+const AppStackNavigator = createStackNavigator({
+  Auth: {
+    screen: AuthScreen
+  },
+  Home: {
+    screen: HomeScreen
   }
-});
-
-const mapStateToProps = state => {
-  return{
-    places: state.places.places,
-    selectedPlace: state.places.selectedPlace
-  };
-};
-
-const mapDispatchProps = dispatch => {
-  return {
-    onAddPlace: (name) => dispatch(addPlace(name)),
-    onDeletePlace: () => dispatch(deletePlace()),
-    onSelectPlace: (key) => dispatch(selectPlace(key)),
-    onDeselectPlace: () => dispatch(deselectPlace())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchProps)(App);
+})
