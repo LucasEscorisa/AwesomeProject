@@ -9,7 +9,7 @@ class SharePlaceScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>SharePlaceScreen</Text>
+                <Text>SharePlaceScreen!!!</Text>
             </View>
         );
     }
